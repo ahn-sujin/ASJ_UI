@@ -9,9 +9,9 @@ export interface ButtonProps
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  varient = "primary",
-  size = "large",
-  fullWidth = false,
+  varient,
+  size,
+  fullWidth,
   ...props
 }) => {
   return (
@@ -37,4 +37,5 @@ const StyledButton = styled.button<ButtonProps>`
   border-radius: ${(props) => buttonSizes[props.size].borderRadius};
   background-color: ${(props) => buttonVariants[props.varient].backgroundColor};
   color: ${(props) => buttonVariants[props.varient].color};
+  border-width: 0px;
 `;
