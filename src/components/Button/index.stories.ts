@@ -1,53 +1,68 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
-import { Button } from "../Button";
+import Button from ".";
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: "Example/Button",
   component: Button,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
-    backgroundColor: { control: "color" },
+    varient: {
+      control: "select",
+      options: ["primary", "secondary", "tertiary"], // buttonVariants에 맞게 수정
+    },
+    size: {
+      control: "select",
+      options: ["small", "medium", "large"], // buttonSizes에 맞게 수정
+    },
+    fullWidth: { control: "boolean" },
+    onClick: { action: "clicked" },
   },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
+  args: {
+    varient: "primary", // 기본 variant
+    size: "large", // 기본 size
+    fullWidth: false, // 기본 fullWidth
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
   args: {
-    primary: true,
-    label: "Button",
+    varient: "primary",
+    children: "Primary Button", // 버튼 텍스트를 children으로 설정
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: "Button",
+    varient: "secondary",
+    children: "Secondary Button", // 버튼 텍스트를 children으로 설정
   },
 };
 
 export const Large: Story = {
   args: {
     size: "large",
-    label: "Button",
+    children: "Large Button", // 버튼 텍스트를 children으로 설정
   },
 };
 
 export const Small: Story = {
   args: {
     size: "small",
-    label: "Button",
+    children: "Small Button", // 버튼 텍스트를 children으로 설정
+  },
+};
+
+export const FullWidth: Story = {
+  args: {
+    fullWidth: true,
+    children: "Full Width Button", // 버튼 텍스트를 children으로 설정
   },
 };

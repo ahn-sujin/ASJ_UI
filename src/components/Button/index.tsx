@@ -1,41 +1,40 @@
-import React from "react";
+import styled from "@emotion/styled";
+import { buttonSizes, buttonVariants } from "../../styles/theme";
 
-import "../Button/index.css";
-
-export interface ButtonProps {
-  /** Is this the principal call to action on the page? */
-  primary?: boolean;
-  /** What background color to use */
-  backgroundColor?: string;
-  /** How large should the button be? */
-  size?: "small" | "medium" | "large";
-  /** Button contents */
-  label: string;
-  /** Optional click handler */
-  onClick?: () => void;
+export interface ButtonProps
+  extends React.HtmlHTMLAttributes<HTMLButtonElement> {
+  varient: keyof typeof buttonVariants;
+  size: keyof typeof buttonSizes;
+  fullWidth: boolean;
 }
 
-/** Primary UI component for user interaction */
-export const Button = ({
-  primary = false,
-  size = "medium",
-  backgroundColor,
-  label,
+export const Button: React.FC<ButtonProps> = ({
+  varient = "primary",
+  size = "large",
+  fullWidth = false,
   ...props
-}: ButtonProps) => {
-  const mode = primary
-    ? "storybook-button--primary"
-    : "storybook-button--secondary";
+}) => {
   return (
-    <button
-      type="button"
-      className={["storybook-button", `storybook-button--${size}`, mode].join(
-        " "
-      )}
-      style={{ backgroundColor }}
+    <StyledButton
+      varient={varient}
+      size={size}
+      fullWidth={fullWidth}
       {...props}
     >
-      {label}
-    </button>
+      {props.children}
+    </StyledButton>
   );
 };
+
+export default Button;
+
+const StyledButton = styled.button<ButtonProps>`
+  width: ${(props) => (props.fullWidth ? "100%" : "auto")};
+  padding: ${(props) => buttonSizes[props.size].padding};
+  font-size: ${(props) => buttonSizes[props.size].fontSize};
+  font-weight: ${(props) => buttonSizes[props.size].fontWeight};
+  line-height: ${(props) => buttonSizes[props.size].lineHeight};
+  border-radius: ${(props) => buttonSizes[props.size].borderRadius};
+  background-color: ${(props) => buttonVariants[props.varient].backgroundColor};
+  color: ${(props) => buttonVariants[props.varient].color};
+`;
